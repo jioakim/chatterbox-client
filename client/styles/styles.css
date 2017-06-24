@@ -6,7 +6,7 @@ body {
 }
 
 #main, #chats {
-    width: 500px;
+    width: 75%;
     margin: auto;
     text-align: left;
     background: white;
@@ -88,3 +88,17 @@ form input[type=text] {
     background-color: #0090da;
 }
 
+.container {
+  margin: auto;
+  background-color: lightgrey;
+  padding: 1vw;
+  height: auto;
+  color: black;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  text-align: left;
+  margin-bottom: 2vh;
+}
+
+.user {
+  font-weight: bold;
+}
