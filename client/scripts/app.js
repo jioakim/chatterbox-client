@@ -2,7 +2,8 @@
 var app = {
   server: 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages',
   roomname: 'lobby',
-  messages: null
+  messages: null,
+  friends: {}
 };
 
 
@@ -42,7 +43,7 @@ app.fetch = function() {
     success: function(data) {
       console.log('chatterbox: Messages received!');
       var rooms = {};
-      data.results.forEach(function(result){
+      data.results.forEach(function(result) {
         result.roomname = $.trim($('<div/>').text(result.roomname).html());
       });
       app.messages = data.results;
@@ -51,7 +52,6 @@ app.fetch = function() {
           app.renderMessage(result);
         }
         var roomName = $.trim($('<div/>').text(result.roomname).html());
-        console.log(roomName);
         if (!rooms[roomName]) {
           if (roomName) {
             rooms[roomName] = true;
@@ -76,7 +76,8 @@ app.clearMessages = function(flag) {
 };
 
 app.renderMessage = function(message) {
-  $('#chats').append("<div class='container'><span class='user'>" + $('<div/>').text(message.username).html() + "</span>:<br> <span>" + $('<div/>').text(message.text).html() + "</span></div>");
+  var username = $('<div/>').text(message.username).html();
+  $('#chats').append("<div class='container'><span class='user'>" + $('<div/>').text(message.username).html() + "</span>:<br> <span class='messageText'>" + $('<div/>').text(message.text).html() + "</span></div>");
 };
 
 app.renderRoom = function(roomname) {
@@ -87,7 +88,14 @@ app.renderRoom = function(roomname) {
 };
 
 app.handleUsernameClick = function() {
-
+  $(document).on('click', '.user', function(e) {
+    var friend = e.currentTarget.innerText;
+    $('.user').each(function() {
+      if (this.innerText === friend) {
+        $(this).next().next().toggleClass('friend');
+      }
+    });
+  });
 };
 
 app.handleSubmit = function() {
@@ -116,7 +124,7 @@ app.addRoom = function() {
 
 $(document).ready(function() {
   app.init();
-  $('#roomSelect').on("change", function(e){
+  $('#roomSelect').on("change", function(e) {
     var roomName = e.currentTarget.value;
     app.clearMessages(false);
     for (var i = 0; i < app.messages.length; i++) {
@@ -124,6 +132,5 @@ $(document).ready(function() {
         app.renderMessage(app.messages[i]);
       }
     }
-    console.log(roomName);
   });
 });
