@@ -92,7 +92,7 @@ app.handleUsernameClick = function() {
     var friend = e.currentTarget.innerText;
     $('.user').each(function() {
       if (this.innerText === friend) {
-        $(this).next().next().toggleClass('friend');
+        $(this).toggleClass('friend');
       }
     });
   });
